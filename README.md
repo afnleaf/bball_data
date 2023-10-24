@@ -106,3 +106,19 @@ using yahoo_oath package to make integrating with the oauth services easier -> h
     }
 }]
 ```
+
+## player stats
+```
+[{'player_id': 6420, 
+'name': 'Jaden McDaniels', 
+'position_type': 'P', 
+'FGA': '-', 
+'FGM': '-', 
+'3PTM': '-', 
+'PTS': '-', 
+'REB': '-', 
+'AST': '-', 
+'ST': '-', 
+'BLK': '-', 
+'TO': '-'}]
+```
