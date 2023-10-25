@@ -1,5 +1,6 @@
 from yahoo_oauth import OAuth2
 import yahoo_fantasy_api as yfa
+import json
 
 # Initialize OAuth2 and authenticate
 oauth = OAuth2(None, None, from_file='oauth2.json')
@@ -13,7 +14,7 @@ if oauth.token_is_valid():
     #print(yahoo_fantasy_sports_game.league_ids(2023))
     # can filter by year
     league_id = yahoo_fantasy_sports_game.league_ids(2023)[0]
-    print("League ID: ", league_id)
+    #print("League ID: ", league_id)
 
     # create league
     league = yahoo_fantasy_sports_game.to_league(league_id)
@@ -23,7 +24,21 @@ if oauth.token_is_valid():
     num_teams = len(all_teams)
     print("Number of teams in league: ", num_teams)
     print()
+
+    data = {
+        "league_id": league_id,
+        "current_week": league.current_week(),
+        "num_teams": num_teams
+    }
+
+    # convert the dictionary to JSON string
+    json_string = json.dumps(data)
+    # save to file
+    file_path = "sampledata.json"
+    with open(file_path, "w") as json_file:
+        json_file.write(json_string)
     
+    '''
     for team_id in all_teams:
         #print(all_teams[team_id].keys())
         team = all_teams[team_id]
@@ -57,7 +72,6 @@ if oauth.token_is_valid():
             player_stats = league.player_stats(player_id, 'lastweek')
             print(player_stats)
 
-
             print()
         #print("Roster adds: ", team['roster_adds'])
         #print("League scoring type: ", team['league_scoring_type'])
@@ -66,7 +80,7 @@ if oauth.token_is_valid():
         print()
     
     # fix runtime request length
-
+    '''
 
     '''
     Valid values are: ‘season’, ‘average_season’, ‘lastweek’, ‘lastmonth’, ‘date’, ‘week’.

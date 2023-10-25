@@ -18,8 +18,12 @@ if oauth.token_is_valid():
     # get my team from my user's team key
     team = league.to_team(league.team_key())
 
-    print(team.roster())
+    #print(team.roster())
 
+    player_details = league.player_details('Kevin Durant')
+    print(player_details)
+
+    '''
     fa_pg = league.free_agents('PG')
     len(fa_pg)
     
@@ -27,4 +31,4 @@ if oauth.token_is_valid():
         player_name = fa_pg[i]['name']
         player_details = league.player_details(player_name)
         print(player_details)
-    
+    '''
