@@ -25,21 +25,21 @@ if oauth.token_is_valid():
     print("Number of teams in league: ", num_teams)
     print()
 
-    data = {
+    league_data = {
         "league_id": league_id,
         "current_week": league.current_week(),
         "num_teams": num_teams
     }
 
     # convert the dictionary to JSON string
-    json_string = json.dumps(data)
+    json_string = json.dumps(league_data)
     # save to file
-    file_path = "sampledata.json"
+    file_path = "leagueData.json"
     with open(file_path, "w") as json_file:
         json_file.write(json_string)
     
-    '''
-    for team_id in all_teams:
+    for index, team_id in enumerate(all_teams):
+        print(index)
         #print(all_teams[team_id].keys())
         team = all_teams[team_id]
         #print(team.keys())
@@ -52,9 +52,31 @@ if oauth.token_is_valid():
         print("FAAB balance: ", team['faab_balance'])
         print("Num moves: ", team['number_of_moves'])
         print("Num trades: ", team['number_of_trades'])
+
+        team_data = {
+            "team_key": team['team_key'],
+            "team_id": team_id,
+            "team_name": team['name'],
+            "url": team['url'],
+            "logo": team['team_logos'],
+            "waiver_prio": team['waiver_priority'],
+            "faab_balance": team['faab_balance'],
+            "num_moves": team['number_of_moves'],
+            "num_trades": team['number_of_trades'],
+        }
+
+        # convert the dictionary to JSON string
+        json_string = json.dumps(team_data)
+        # save to file
+        file_path = "data/teamData" + str(index) + ".json"
+        with open(file_path, "w") as json_file:
+            json_file.write(json_string)
+
+        
         print("Roster: \n")
         # confusing part where this is how you get the team class
         # but team details aren't in the team class, they are in the team dict
+        '''
         roster = league.to_team(team_id).roster()
         # print(roster)
         for player in roster:
@@ -78,9 +100,9 @@ if oauth.token_is_valid():
         #print("Has draft grade: ", team['has_draft_grade'])
         #print("Managers: ", team['managers'])
         print()
+        '''
     
     # fix runtime request length
-    '''
 
     '''
     Valid values are: ‘season’, ‘average_season’, ‘lastweek’, ‘lastmonth’, ‘date’, ‘week’.
