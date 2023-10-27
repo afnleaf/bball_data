@@ -1,3 +1,5 @@
+
+
 // to load any json file
 function loadJSON(url) {
     return fetch(url)
@@ -34,10 +36,14 @@ async function displayTeams() {
         const teamData = await loadJSON(url);
         //console.log(url);
         if (teamData) {
+            // save image
+            //imageUrls.push(`${teamData.logo[0].team_logo.url}`);
+
             // display data
             teamInfo.innerHTML += 
             `<ul>
                 <li>Team Name: ${teamData.team_name}</li>
+                <li>Manager: ${teamData.manager}</li>
                 <li>Team ID: ${teamData.team_id}</li>
                 <li>Team Key: ${teamData.team_key}</li>
                 <li><a href=${teamData.url}>link</a></li>
@@ -72,6 +78,46 @@ async function displayTeams() {
 
 displayLeague();
 displayTeams();
+
+
+// Array of image URLs
+const imageUrls = [
+    'images/image0.jpg',
+    'images/image1.jpg',
+    'images/image2.jpg',
+    'images/image3.jpg',
+    'images/image4.jpg',
+    'images/image5.jpg',
+    'images/image6.jpg',
+    'images/image7.jpg',
+    'images/image8.jpg',
+    'images/image9.jpg',
+    'images/image10.jpg',
+    'images/image11.jpg'
+];
+
+// Function to create the grid of images
+function createImageGrid() {
+    console.log(imageUrls);
+    console.log(imageUrls.length);
+    const imageGrid = document.getElementById('imageGrid');
+
+    //for (const imageUrl of imageUrls) {
+    imageUrls.forEach(function(imageUrl) {
+        console.log(imageUrls[0])
+        const image = document.createElement('img');
+        image.src = imageUrl;
+        image.addEventListener('click', () => {
+            // Handle image click here
+            console.log(`Clicked on ${imageUrl}`);
+        });
+
+        imageGrid.appendChild(image);
+    });
+}
+
+// Call the function to create the grid when the page loads
+window.addEventListener('load', createImageGrid);
 
 
 /*

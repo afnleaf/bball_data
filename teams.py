@@ -37,6 +37,8 @@ if oauth.token_is_valid():
         print("FAAB balance: ", team['faab_balance'])
         print("Num moves: ", team['number_of_moves'])
         print("Num trades: ", team['number_of_trades'])
+        print("Managers: ", team['managers'])
+        '''
         print("Roster: \n")
         # confusing part where this is how you get the team class
         # but team details aren't in the team class, they are in the team dict
@@ -64,6 +66,7 @@ if oauth.token_is_valid():
         #print("Has draft grade: ", team['has_draft_grade'])
         #print("Managers: ", team['managers'])
         print()
+        '''
     
     # fix runtime request length
 

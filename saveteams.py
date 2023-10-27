@@ -1,6 +1,11 @@
 from yahoo_oauth import OAuth2
 import yahoo_fantasy_api as yfa
 import json
+import os
+import requests
+from PIL import Image
+from io import BytesIO
+
 
 # Initialize OAuth2 and authenticate
 oauth = OAuth2(None, None, from_file='oauth2.json')
@@ -47,16 +52,42 @@ if oauth.token_is_valid():
         #print("Team ID: ", team_id)
         #print("Team name: ", team['name'])
         #print("URL: ", team['url'])
-        #print("Logo: ", team['team_logos'])
+        print("Logo: ", team['team_logos'])
         #print("Waiver priority: ", team['waiver_priority'])
         #print("FAAB balance: ", team['faab_balance'])
         #print("Num moves: ", team['number_of_moves'])
         #print("Num trades: ", team['number_of_trades'])
 
+        # URL of the image you want to save
+        image_url = team['team_logos'][0]['team_logo']['url']
+        #logo_url = data[0]['team_logo']['url']
+        print(image_url)
+
+        # Send an HTTP GET request to the URL
+        response = requests.get(image_url)
+
+        if response.status_code == 200:
+            # Read the content of the response (image data)
+            image_data = response.content
+            # Create an image object from the binary data
+            image = Image.open(BytesIO(image_data))
+            # Convert the image to RGB mode (if not already)
+            if image.mode != 'RGB':
+                image = image.convert('RGB')
+            # Save the image to your local filesystem
+            #image.save('\images\image' + str(index) + '.jpg')
+            image.save(f'images/image{index}.jpg')
+            
+            print("Image saved successfully")
+
+        else:
+            print(f"Failed to fetch the image. Status code: {response.status_code}")
+
         team_data = {
             "team_key": team['team_key'],
             "team_id": team_id,
             "team_name": team['name'],
+            "manager": team['managers'][0]['manager']['nickname'],
             "url": team['url'],
             "logo": team['team_logos'],
             "waiver_prio": team['waiver_priority'],
