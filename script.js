@@ -46,8 +46,23 @@ async function displayTeams() {
                 <li>FAAB Balance: ${teamData.faab_balance}</li>
                 <li>Num moves: ${teamData.num_moves}</li>
                 <li>Num trades: ${teamData.num_trades}</li>
-            </ul>
-            <br>`;
+            </ul>`;
+            teamInfo.innerHTML += `<p>Roster:</p><ul>`
+            
+            for (const player of teamData.roster) {
+                const num_adv_stats = player.player_details[0].player_advanced_stats.stats.length
+                teamInfo.innerHTML += 
+                `<li>
+                    ${player.name}, ${player.selected_position},
+                `;
+                for (var i = 0; i < num_adv_stats; i++) {
+                    teamInfo.innerHTML +=
+                    ` ${player.player_details[0].player_advanced_stats.stats[i].stat.value},
+                    `;
+                }    
+            teamInfo.innerHTML += `</li>`;
+            }
+            teamInfo.innerHTML += `</ul><br>`
         } else {
             teamInfo.innerHTML += `<p>Failed to load data from ${url}</p>`;
         }

@@ -6,7 +6,7 @@ import json
 oauth = OAuth2(None, None, from_file='oauth2.json')
 
 if oauth.token_is_valid():
-    print('valid token')
+    #print('valid token')
     
     # create game
     yahoo_fantasy_sports_game = yfa.Game(oauth, 'nba')
@@ -19,11 +19,11 @@ if oauth.token_is_valid():
     # create league
     league = yahoo_fantasy_sports_game.to_league(league_id)
     
-    print("Current week: ", league.current_week())
+    #print("Current week: ", league.current_week())
     all_teams = league.teams()
     num_teams = len(all_teams)
-    print("Number of teams in league: ", num_teams)
-    print()
+    #print("Number of teams in league: ", num_teams)
+    #print()
 
     league_data = {
         "league_id": league_id,
@@ -39,19 +39,19 @@ if oauth.token_is_valid():
         json_file.write(json_string)
     
     for index, team_id in enumerate(all_teams):
-        print(index)
+        #print(index)
         #print(all_teams[team_id].keys())
         team = all_teams[team_id]
         #print(team.keys())
-        print("Team key: ", team['team_key'])
-        print("Team ID: ", team_id)
-        print("Team name: ", team['name'])
-        print("URL: ", team['url'])
-        print("Logo: ", team['team_logos'])
-        print("Waiver priority: ", team['waiver_priority'])
-        print("FAAB balance: ", team['faab_balance'])
-        print("Num moves: ", team['number_of_moves'])
-        print("Num trades: ", team['number_of_trades'])
+        #print("Team key: ", team['team_key'])
+        #print("Team ID: ", team_id)
+        #print("Team name: ", team['name'])
+        #print("URL: ", team['url'])
+        #print("Logo: ", team['team_logos'])
+        #print("Waiver priority: ", team['waiver_priority'])
+        #print("FAAB balance: ", team['faab_balance'])
+        #print("Num moves: ", team['number_of_moves'])
+        #print("Num trades: ", team['number_of_trades'])
 
         team_data = {
             "team_key": team['team_key'],
@@ -63,44 +63,53 @@ if oauth.token_is_valid():
             "faab_balance": team['faab_balance'],
             "num_moves": team['number_of_moves'],
             "num_trades": team['number_of_trades'],
+            "roster": league.to_team(team_id).roster()
         }
+        
+        #print("Roster: \n")
+        # confusing part where this is how you get the team class
+        # but team details aren't in the team class, they are in the team dict
+        
+        #roster = league.to_team(team_id).roster()
+        # print(roster)
+        for i, player in enumerate(team_data["roster"]):
+            player_id = player['player_id']
+            #print("Player ID: ", player_id)
+            #print("Name: ", player['name'])
+            #print("Status: ", player['status'])
+            #print("Position type: ", player['position_type'])
+            #print("Elegible positions: ", player['eligible_positions'])
+            #print("Selected position: ", player['selected_position'])
+            #print(i)
+            # push player details and stats into dict
+            team_data["roster"][i]["player_details"] = league.player_details(player_id)
+            team_data["roster"][i]["player_stats"] = league.player_stats(player_id, 'lastweek')
+            
+            #team_data[roster[i][i].player_details = league.player_details(player_id)
+            #team_data[roster][i].player_stats = league.player_stats(player_id, 'season')
 
+            # details
+            #player_details = league.player_details(player_id)
+            #print(player_details)
+            # stats
+            #player_stats = league.player_stats(player_id, 'lastweek')
+            #print(player_stats)
+        
         # convert the dictionary to JSON string
         json_string = json.dumps(team_data)
         # save to file
         file_path = "data/teamData" + str(index) + ".json"
         with open(file_path, "w") as json_file:
             json_file.write(json_string)
-
         
-        print("Roster: \n")
-        # confusing part where this is how you get the team class
-        # but team details aren't in the team class, they are in the team dict
-        '''
-        roster = league.to_team(team_id).roster()
-        # print(roster)
-        for player in roster:
-            player_id = player['player_id']
-            print("Player ID: ", player_id)
-            print("Name: ", player['name'])
-            print("Status: ", player['status'])
-            print("Position type: ", player['position_type'])
-            print("Elegible positions: ", player['eligible_positions'])
-            print("Selected position: ", player['selected_position'])
-            # details
-            player_details = league.player_details(player_id)
-            print(player_details)
-            # stats
-            player_stats = league.player_stats(player_id, 'lastweek')
-            print(player_stats)
-
-            print()
         #print("Roster adds: ", team['roster_adds'])
         #print("League scoring type: ", team['league_scoring_type'])
         #print("Has draft grade: ", team['has_draft_grade'])
         #print("Managers: ", team['managers'])
-        print()
-        '''
+        #print()
+
+
+        
     
     # fix runtime request length
 
@@ -120,3 +129,14 @@ if oauth.token_is_valid():
     print player
     '''
     #current_team = league.to_team(league.team_key())
+
+    '''
+    +/- - Plus-Minus  
+    AR - Assist Rate  
+    eFG% - Effective Shooting Percentage 
+    FTR - Free Throw Rate 
+    TOR - Turnover Rate 
+    TS% - True Shooting Percentage
+    Usg% - Usage Percentage
+    WS - Win Shares
+    '''
