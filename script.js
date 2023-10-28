@@ -1,5 +1,3 @@
-
-
 // to load any json file
 function loadJSON(url) {
     return fetch(url)
@@ -53,27 +51,115 @@ async function displayTeams() {
                 <li>Num moves: ${teamData.num_moves}</li>
                 <li>Num trades: ${teamData.num_trades}</li>
             </ul>`;
-            teamInfo.innerHTML += `<p>Roster:</p><ul>`
+
+            // roster table
+            // stats and their meaning, probably incorrect
             
+            /*
+            let advStatsTable = `
+            <table>
+                <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>+/- Plus-Minus</th>
+                        <th>AR - Assist Rate</th>
+                        <th>eFG% - Effective Shooting Percentage</th>
+                        <th>FTR - Free Throw Rate</th>
+                        <th>TOR - Turnover Rate</th>
+                        <th>TS% - True Shooting Percentage</th>
+                        <th>Usg% - Usage Percentage</th>
+                        <th>WS - Win Shares</th>
+                    </tr>
+                </thead>
+                <tbody>
+            `;
+            */
+            /* 
+                FGM     Field Goals Made
+                FGA     Field Goals Attempted
+                3PTM    3pt Field Goals Made
+                PTS     Points
+                REB     Rebounds
+                AST     Assists
+                ST      Steals
+                BLK     Blocks
+                TO      Turnovers
+                PPG     Points Per Game 
+                eFG%    Effective Field Goal Percentage
+                FTR     Free Throw Rate
+                TOR     Turnover Rate
+                TS%     True Shooting Percentage
+                Usg%    Usage Percentage
+                WS      Win Shares
+            */
+            let statsTable = `
+            <table>
+                <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>FGM</th>
+                        <th>FGA</th>
+                        <th>3PTM</th>
+                        <th>PTS</th>
+                        <th>REB</th>
+                        <th>AST</th>
+                        <th>ST</th>
+                        <th>BLK</th>
+                        <th>TO</th>
+                        <th>PPG</th>
+                        <th>eFG%</th>
+                        <th>FTR</th>
+                        <th>TOR</th>
+                        <th>TS%</th>
+                        <th>Usg%</th>
+                        <th>WS</th>
+                    </tr>
+                </thead>
+                <tbody>
+            `;
+
+
+            // loop through each player on roster
             for (const player of teamData.roster) {
-                const num_adv_stats = player.player_details[0].player_advanced_stats.stats.length
-                teamInfo.innerHTML += 
-                `<li>
-                    ${player.name}, ${player.selected_position},
+                // this is always 7 but we have 8 adv stats from yahoo fantasy page
+                
+                // player name and position
+                statsTable += `<tr>
+                    <td>
+                        ${player.name}, ${player.selected_position}
+                    </td>
                 `;
-                for (var i = 0; i < num_adv_stats; i++) {
-                    teamInfo.innerHTML +=
-                    ` ${player.player_details[0].player_advanced_stats.stats[i].stat.value},
+                // loop through each regular stat
+                const num_stats = player.player_details[0].player_stats.stats.length;
+                for (var i = 0; i < num_stats; i++) {
+                    statsTable += `
+                    <td>
+                        ${player.player_details[0].player_stats.stats[i].stat.value}
+                    </td>
                     `;
-                }    
-            teamInfo.innerHTML += `</li>`;
+                }
+
+                // loop through each advanced stat
+                const num_adv_stats = player.player_details[0].player_advanced_stats.stats.length;
+                for (var i = 0; i < num_adv_stats; i++) {
+                    statsTable += `
+                    <td>
+                        ${player.player_details[0].player_advanced_stats.stats[i].stat.value}
+                    </td>`;
+                }
+                statsTable += `</tr>`;
             }
-            teamInfo.innerHTML += `</ul><br>`
+            statsTable += `</tbody></table><br>`;
+
+            // Set the HTML content in a single step
+            teamInfo.innerHTML += statsTable;
+
         } else {
             teamInfo.innerHTML += `<p>Failed to load data from ${url}</p>`;
         }
     }
 }
+
 
 
 displayLeague();
@@ -98,13 +184,10 @@ const imageUrls = [
 
 // Function to create the grid of images
 function createImageGrid() {
-    console.log(imageUrls);
-    console.log(imageUrls.length);
     const imageGrid = document.getElementById('imageGrid');
 
     //for (const imageUrl of imageUrls) {
     imageUrls.forEach(function(imageUrl) {
-        console.log(imageUrls[0])
         const image = document.createElement('img');
         image.src = imageUrl;
         image.addEventListener('click', () => {
@@ -164,3 +247,67 @@ function loadJSON() {
     request.send();
 }
 */
+
+/*
+            teamInfo.innerHTML += 
+            `
+            <table>
+                <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>+/- Plus-Minus</th>
+                        <th>AR - Assist Rate</th>
+                        <th>eFG% - Effective Shooting Percentage</th>
+                        <th>FTR - Free Throw Rate</th>
+                        <th>TOR - Turnover Rate</th>
+                        <th>TS% - True Shooting Percentage</th>
+                        <th>Usg% - Usage Percentage</th>
+                        <th>WS - Win Shares</th>
+                    </tr>
+                </thead>
+                <tbody>
+            `;
+            // loop through each player on roster
+            for (const player of teamData.roster) {
+            //teamData.roster.forEach((player) => {
+                // this is always 7
+                const num_adv_stats = player.player_details[0].player_advanced_stats.stats.length
+                teamInfo.innerHTML += `<tr>`;
+                // player name and position
+                teamInfo.innerHTML += 
+                `
+                    <td>
+                        ${player.name}, ${player.selected_position}
+                    </td>
+                `;
+                // loop through each advanced stat
+                for (var i = 0; i < num_adv_stats; i++) {
+                    teamInfo.innerHTML +=
+                    `
+                    <td>
+                        ${player.player_details[0].player_advanced_stats.stats[i].stat.value}
+                    </td>
+                    `;
+                }
+                teamInfo.innerHTML += `</tr>`;
+            }
+            teamInfo.innerHTML += `</tbody></table><br>`;
+            */
+
+            /*
+            teamInfo.innerHTML += `<p>Roster:</p><ul>`
+            for (const player of teamData.roster) {
+                const num_adv_stats = player.player_details[0].player_advanced_stats.stats.length
+                teamInfo.innerHTML += 
+                `<li>
+                    ${player.name}, ${player.selected_position},
+                `;
+                for (var i = 0; i < num_adv_stats; i++) {
+                    teamInfo.innerHTML +=
+                    ` ${player.player_details[0].player_advanced_stats.stats[i].stat.value},
+                    `;
+                }    
+            teamInfo.innerHTML += `</li>`;
+            }
+            teamInfo.innerHTML += `</ul><br>`
+            */

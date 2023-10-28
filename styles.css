@@ -13,6 +13,11 @@ h3 {
     line-height: 1.2
 }
 
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+
 /* Add some basic styling to your grid */
 .image-grid {
     display: grid;

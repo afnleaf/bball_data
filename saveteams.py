@@ -161,6 +161,7 @@ if oauth.token_is_valid():
     '''
     #current_team = league.to_team(league.team_key())
 
+    # advanced stats
     '''
     +/- - Plus-Minus  
     AR - Assist Rate  
@@ -170,4 +171,36 @@ if oauth.token_is_valid():
     TS% - True Shooting Percentage
     Usg% - Usage Percentage
     WS - Win Shares
+    '''
+
+    # normal stats
+    '''
+    GP	Games Played
+    GS	Games Started
+    MIN	Minutes Played
+    MPG	Minutes Played Per Game
+    FGA	Field Goals Attempted
+    FGM	Field Goals Made
+    FG%	Field Goals Percentage
+    FTA	Free Throws Attempted
+    FTM	Free Throws Made
+    FT%	Free Throws Percentage
+    3PTA	3-point Shots Attempted
+    3PTM	3-point Shots Made
+    3PT%	3-point Shots Percentage
+    PTS	Points Scored
+    OREB	Offensive Rebounds
+    DREB	Defensive Rebounds
+    REB	Total Rebounds
+    AST	Assists
+    ST	Steals
+    BLK	Blocked Shots
+    TO	Turnovers
+    A/T	Assist/Turnover Ratio
+    PF	Personal Fouls
+    DISQ	Times Fouled Out
+    TECH	Technical Fouls
+    EJCT	Ejections
+    FF	Flagrant Fouls
+    Total	Total Standard Deviation
     '''
