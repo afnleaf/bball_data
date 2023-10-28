@@ -1,6 +1,6 @@
 body {
     margin: 40px auto;
-    max-width: 650px;
+    max-width: 50%;
     line-height: 1.6;
     font-size: 18px;
     color: #444;
@@ -13,13 +13,34 @@ h3 {
     line-height: 1.2
 }
 
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-  }
+table {
+width: 100%;
+border-collapse: collapse;
+border: 2px solid #000000;
+}
+
+th, td {
+padding: 12px;
+text-align: left;
+border: 2px solid #000000;
+font-family: Arial, sans-serif;
+}
+
+th {
+background-color: #000000;
+color: white;
+}
+
+tr:nth-child(even) {
+background-color: #f0f0f0;
+}
 
 /* Add some basic styling to your grid */
 .image-grid {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
