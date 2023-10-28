@@ -85,15 +85,15 @@ if oauth.token_is_valid():
 
         team_data = {
             "team_key": team['team_key'],
-            "team_id": team_id,
-            "team_name": team['name'],
+            #"team_id": team_id,
+            #"team_name": team['name'],
             "manager": team['managers'][0]['manager']['nickname'],
             "url": team['url'],
             "logo": team['team_logos'],
-            "waiver_prio": team['waiver_priority'],
-            "faab_balance": team['faab_balance'],
-            "num_moves": team['number_of_moves'],
-            "num_trades": team['number_of_trades'],
+            #"waiver_prio": team['waiver_priority'],
+            #"faab_balance": team['faab_balance'],
+            #"num_moves": team['number_of_moves'],
+            #"num_trades": team['number_of_trades'],
             "roster": league.to_team(team_id).roster()
         }
         

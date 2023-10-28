@@ -15,7 +15,12 @@ async function displayLeague() {
     const leagueData = await loadJSON(url);
 
     if (leagueData) {
-        leagueInfo.innerHTML = "Week: " + leagueData.current_week + " League ID: " + leagueData.league_id + " Num teams: " + leagueData.num_teams;
+        leagueInfo.innerHTML = 
+        `
+            <h2>Week ${leagueData.current_week}</h2>
+            <p>League ID: ${leagueData.league_id}</p>
+            <p>Num teams: ${leagueData.num_teams}</p>
+        `;
     } else {
         leagueInfo.innerHTML = `<p>Failed to load data from ${url}</p>`
     }    
@@ -39,41 +44,20 @@ async function displayTeams() {
 
             // display data
             teamInfo.innerHTML += 
-            `<ul>
-                <li>Team Name: ${teamData.team_name}</li>
-                <li>Manager: ${teamData.manager}</li>
-                <li>Team ID: ${teamData.team_id}</li>
-                <li>Team Key: ${teamData.team_key}</li>
-                <li><a href=${teamData.url}>link</a></li>
-                <li><img src=${teamData.logo[0].team_logo.url}></li>
-                <li>Waiver priority: ${teamData.waiver_prio}</li>
-                <li>FAAB Balance: ${teamData.faab_balance}</li>
-                <li>Num moves: ${teamData.num_moves}</li>
-                <li>Num trades: ${teamData.num_trades}</li>
-            </ul>`;
+            `   
+                <hr>
+                <br>
+                <img src=${teamData.logo[0].team_logo.url}>
+                <h3>${teamData.team_name}</h3>
+                <h4>Managed by: ${teamData.manager}</h4>
+            `;
+
+            //<li><a href=${teamData.url}>link</a></li>
+            //<li></li>
 
             // roster table
-            // stats and their meaning, probably incorrect
-            
-            /*
-            let advStatsTable = `
-            <table>
-                <thead>
-                    <tr>
-                        <th>Player</th>
-                        <th>+/- Plus-Minus</th>
-                        <th>AR - Assist Rate</th>
-                        <th>eFG% - Effective Shooting Percentage</th>
-                        <th>FTR - Free Throw Rate</th>
-                        <th>TOR - Turnover Rate</th>
-                        <th>TS% - True Shooting Percentage</th>
-                        <th>Usg% - Usage Percentage</th>
-                        <th>WS - Win Shares</th>
-                    </tr>
-                </thead>
-                <tbody>
-            `;
-            */
+            // stats and their meaning
+            // advanced stats are likely incorrect, except for plus/minus
             /* 
                 FGM     Field Goals Made
                 FGA     Field Goals Attempted
@@ -97,6 +81,7 @@ async function displayTeams() {
                 <thead>
                     <tr>
                         <th>Player</th>
+                        <th>Position</th>
                         <th>FGM</th>
                         <th>FGA</th>
                         <th>3PTM</th>
@@ -126,8 +111,11 @@ async function displayTeams() {
                 // player name and position
                 statsTable += `<tr>
                     <td>
-                        ${player.name}, ${player.selected_position}
+                        ${player.name} 
                     </td>
+                    <td>
+                        ${player.selected_position}
+                    </td>                        
                 `;
                 // loop through each regular stat
                 const num_stats = player.player_details[0].player_stats.stats.length;
@@ -149,7 +137,7 @@ async function displayTeams() {
                 }
                 statsTable += `</tr>`;
             }
-            statsTable += `</tbody></table><br>`;
+            statsTable += `</tbody></table><br><br><br>`;
 
             // Set the HTML content in a single step
             teamInfo.innerHTML += statsTable;
@@ -310,4 +298,40 @@ function loadJSON() {
             teamInfo.innerHTML += `</li>`;
             }
             teamInfo.innerHTML += `</ul><br>`
+            */
+
+            /*
+            let advStatsTable = `
+            <table>
+                <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>+/- Plus-Minus</th>
+                        <th>AR - Assist Rate</th>
+                        <th>eFG% - Effective Shooting Percentage</th>
+                        <th>FTR - Free Throw Rate</th>
+                        <th>TOR - Turnover Rate</th>
+                        <th>TS% - True Shooting Percentage</th>
+                        <th>Usg% - Usage Percentage</th>
+                        <th>WS - Win Shares</th>
+                    </tr>
+                </thead>
+                <tbody>
+            `;
+            */
+
+            /*
+            teamInfo.innerHTML += 
+            `<ul>
+                <li>Team Name: ${teamData.team_name}</li>
+                <li>Manager: ${teamData.manager}</li>
+                <li>Team ID: ${teamData.team_id}</li>
+                <li>Team Key: ${teamData.team_key}</li>
+                <li><a href=${teamData.url}>link</a></li>
+                <li><img src=${teamData.logo[0].team_logo.url}></li>
+                <li>Waiver priority: ${teamData.waiver_prio}</li>
+                <li>FAAB Balance: ${teamData.faab_balance}</li>
+                <li>Num moves: ${teamData.num_moves}</li>
+                <li>Num trades: ${teamData.num_trades}</li>
+            </ul>`;
             */
