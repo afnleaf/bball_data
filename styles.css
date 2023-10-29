@@ -13,27 +13,37 @@ h3 {
     line-height: 1.2
 }
 
+
+/* sections */
+#teamInfo {
+    display: none;
+}
+
+
+/* Table styles */
 table {
-width: 100%;
-border-collapse: collapse;
-border: 2px solid #000000;
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #000000;
 }
 
 th, td {
-padding: 12px;
-text-align: left;
-border: 2px solid #000000;
-font-family: Arial, sans-serif;
+    padding: 12px;
+    text-align: left;
+    border: 2px solid #000000;
+    font-family: Arial, sans-serif;
 }
 
 th {
-background-color: #000000;
-color: white;
+    background-color: #000000;
+    color: white;
 }
 
 tr:nth-child(even) {
-background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
+
+/* image grid */
 
 /* Add some basic styling to your grid */
 .image-grid {
